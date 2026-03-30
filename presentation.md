@@ -122,7 +122,7 @@ style: |
 <!-- _footer: '' -->
 <!-- _paginate: false -->
 
-# // KUANTUM KODLAMA ARAŞTIRMASI · YGA 2026 · GRUP 22
+# // KUANTUM KODLAMA ARAŞTIRMASI · YGA 2026 · GRUP 14
 
 ## Obezite Düzeyi Tahmininde Klasik ve Kuantum Tabanlı Yaklaşımlar
 
@@ -146,7 +146,7 @@ style: |
 
 ---
 
-<!-- _footer: 'YGA 2026 · Grup 22 · Hibrit Kuantum Kodlama' -->
+<!-- _footer: 'YGA 2026 · Grup 14 · Hibrit Kuantum Kodlama' -->
 
 # // SLIDE 01 — BAŞLIK SAYFASI
 
@@ -169,11 +169,11 @@ style: |
   └──────────────────────────────────────────────────────────────────┘
 ```
 
-> **YGA 2026 — Grup 22 · Hibrit Kuantum Kodlama Analizi**
+> **YGA 2026 — Grup 14 · Hibrit Kuantum Kodlama Analizi**
 
 ---
 
-<!-- _footer: 'YGA 2026 · Grup 22 · Hibrit Kuantum Kodlama' -->
+<!-- _footer: 'YGA 2026 · Grup 14 · Hibrit Kuantum Kodlama' -->
 
 # // SLIDE 02 — PROBLEMİN TANIMI VE ARAŞTIRMA SORUSU
 
@@ -206,7 +206,7 @@ Klasik sağlık verisinin kuantum devrelere aktarımında (encoding) **veri tipi
 
 ---
 
-<!-- _footer: 'YGA 2026 · Grup 22 · Hibrit Kuantum Kodlama' -->
+<!-- _footer: 'YGA 2026 · Grup 14 · Hibrit Kuantum Kodlama' -->
 
 # // SLIDE 03 — YÖNTEM: ADAPTİF KODLAMA STRATEJİSİ
 
@@ -238,7 +238,7 @@ def basis_encoding(x_bin):
 
 ---
 
-<!-- _footer: 'YGA 2026 · Grup 22 · Hibrit Kuantum Kodlama' -->
+<!-- _footer: 'YGA 2026 · Grup 14 · Hibrit Kuantum Kodlama' -->
 
 # // SLIDE 04 — TEKNİK İŞ AKIŞI VE MİMARİ
 
@@ -269,7 +269,7 @@ q7 (con): ──[Amp]────────────────●─[Rᵧ
 
 ---
 
-<!-- _footer: 'YGA 2026 · Grup 22 · Hibrit Kuantum Kodlama' -->
+<!-- _footer: 'YGA 2026 · Grup 14 · Hibrit Kuantum Kodlama' -->
 
 # // SLIDE 05 — VERİ SETİ VE HEDEF
 
@@ -307,7 +307,7 @@ q7 (con): ──[Amp]────────────────●─[Rᵧ
 
 ---
 
-<!-- _footer: 'YGA 2026 · Grup 22 · Hibrit Kuantum Kodlama' -->
+<!-- _footer: 'YGA 2026 · Grup 14 · Hibrit Kuantum Kodlama' -->
 
 # // SLIDE 06 — LİTERATÜR VE ÖZGÜN DEĞER
 
@@ -345,7 +345,7 @@ q7 (con): ──[Amp]────────────────●─[Rᵧ
 
 ---
 
-<!-- _footer: 'YGA 2026 · Grup 22 · Hibrit Kuantum Kodlama' -->
+<!-- _footer: 'YGA 2026 · Grup 14 · Hibrit Kuantum Kodlama' -->
 
 # // SLIDE 07 — GÖREV DAĞILIMI VE ROL MATRİSİ
 
@@ -385,7 +385,7 @@ q7 (con): ──[Amp]────────────────●─[Rᵧ
 
 ---
 
-<!-- _footer: 'YGA 2026 · Grup 22 · Hibrit Kuantum Kodlama' -->
+<!-- _footer: 'YGA 2026 · Grup 14 · Hibrit Kuantum Kodlama' -->
 
 # // SLIDE 08 — ZAMAN ÇİZELGESİ: 8 HAFTALIK PLAN
 
@@ -442,8 +442,45 @@ q7 (con): ──[Amp]────────────────●─[Rᵧ
 ║                                                                      ║
 ║   |ψ_final⟩ = Σᵢ αᵢ·AngleEnc(xᵢ) ⊗ Σⱼ βⱼ·AmpEnc(xⱼ)            ║
 ║                                                                      ║
-║   [SUCCESS] Hibrit Kuantum Kodlama Araştırması · YGA 2026 Grup 22  ║
+║   [SUCCESS] Hibrit Kuantum Kodlama Araştırması · YGA 2026 Grup 14  ║
 ╚══════════════════════════════════════════════════════════════════════╝
 ```
 
 > Sorular ve tartışma için teşekkürler.
+
+---
+
+<!-- _footer: 'YGA 2026 · Grup 14 · Hibrit Kuantum Kodlama' -->
+
+# // TEŞEKKÜRLER
+
+```text
+            =============
+          /               \
+         |  QUANTUM CORE   |
+          \_______________/
+            |  |  |  |  |
+           _|__|__|__|__|_
+          |===============|
+          |  o    o    o  |
+          |  o    o    o  |
+           \_____________/
+             |  |   |  |
+            _|__|___|__|_
+           |=============|
+           |   o     o   |
+            \___________/
+              | | | | |
+             _|=======|_
+            | o   o   o |
+             \_________/
+               |  |  |
+              _|=====|_
+             |    o    |
+              \_______/
+                 | |
+                _|_|_
+               \_____/
+                  |
+                 ---
+```
