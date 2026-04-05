@@ -3,3 +3,10 @@ __pycache__/
 .ipynb_checkpoints/
 *.egg-info/
 .env
+venv/
+.vscode/
+dist/
+build/
+*.log
+results/
+Article/*.docx

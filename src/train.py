@@ -41,9 +41,9 @@ import seaborn as sns
 N_QUBITS   = 6      # 3 amplitude + 3 angle
 N_LAYERS   = 2      # StronglyEntanglingLayers depth
 BATCH_SIZE = 16
-EPOCHS     = 40
-LR         = 0.005
-PATIENCE   = 10     # early-stopping patience
+EPOCHS     = 100
+LR         = 0.003
+PATIENCE   = 20     # early-stopping patience
 RESULTS_DIR = "results"
 
 # ─────────────────────────────────────────────────────────────────
@@ -93,8 +93,8 @@ def hybrid_circuit(inputs, weights):
     weights: tensor of shape (N_LAYERS, N_QUBITS, 3)
     returns: list of 6 PauliZ expectations
     """
-    x_cont = inputs[:8]   # 8 continuous features → AmplitudeEmbedding
-    x_cat3 = inputs[8:]   # 3 categorical features → AngleEmbedding
+    x_cont = inputs[:, :8]   # 8 continuous features → AmplitudeEmbedding
+    x_cat3 = inputs[:, 8:]   # 3 categorical features → AngleEmbedding
 
     qml.AmplitudeEmbedding(x_cont, wires=[0, 1, 2], normalize=True)
     qml.AngleEmbedding(x_cat3,  wires=[3, 4, 5], rotation="Y")
@@ -185,6 +185,7 @@ def plot_confusion_matrix(labels, preds, classes, out_dir):
 if __name__ == "__main__":
     # Locate dataset
     for candidate in [
+        "temiz_obezite_verisi.csv",
         "data/ObesityDataSet_raw_and_data_sinthetic.csv",
         "ObesityDataSet_raw_and_data_sinthetic.csv",
     ]:
@@ -215,7 +216,7 @@ if __name__ == "__main__":
     optimizer = optim.Adam(model.parameters(), lr=LR)
     criterion = nn.CrossEntropyLoss()
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(
-        optimizer, mode="min", patience=5, factor=0.5, verbose=True
+        optimizer, mode="min", patience=5, factor=0.5
     )
 
     print(f"\nDevre    : {N_QUBITS} kübit, {N_LAYERS} katman StronglyEntanglingLayers")
@@ -224,6 +225,7 @@ if __name__ == "__main__":
     print("─" * 60)
 
     train_losses, test_accs, test_f1s = [], [], []
+    history = []
     best_acc, best_state = 0.0, None
     no_improve = 0
 
@@ -235,6 +237,12 @@ if __name__ == "__main__":
         train_losses.append(loss)
         test_accs.append(acc)
         test_f1s.append(f1)
+        history.append({
+            "epoch": epoch,
+            "train_loss": round(loss, 4),
+            "test_acc": round(acc, 4),
+            "test_f1": round(f1, 4)
+        })
 
         if acc > best_acc:
             best_acc   = acc
@@ -259,7 +267,29 @@ if __name__ == "__main__":
     best_acc, best_f1, best_preds, best_labels = evaluate(model, test_loader)
     print(f"En iyi model Accuracy: {best_acc:.4f}  |  Macro F1: {best_f1:.4f}")
 
-    # ── Save plots ─────────────────────────────────────────────
+    # ── Save plots and academic reports ────────────────────────
     plot_curves(train_losses, test_accs, test_f1s, RESULTS_DIR)
     plot_confusion_matrix(best_labels, best_preds, classes, RESULTS_DIR)
-    print(f"\nGrafikler '{RESULTS_DIR}/' klasörüne kaydedildi.")
+
+    # Detaylı metrikleri CSV dosyasına kaydet
+    pd.DataFrame(history).to_csv(os.path.join(RESULTS_DIR, "training_logs_per_epoch.csv"), index=False)
+
+    # Genel sonuç özetini TXT olarak makale yazımı için kaydet
+    with open(os.path.join(RESULTS_DIR, "academic_report_summary.txt"), "w", encoding="utf-8") as f:
+        f.write("=== HİBRİT KUANTUM MODELİ EĞİTİM RAPORU ===\n")
+        f.write(f"Model: HybridQNN ({N_QUBITS} Kübit, {N_LAYERS} Katman StronglyEntanglingLayers)\n")
+        f.write(f"Hiperparametreler: BATCH={BATCH_SIZE}, LR={LR}, MAX_EPOCHS={EPOCHS}, PATIENCE={PATIENCE}\n")
+        f.write("-" * 45 + "\n")
+        f.write(f"En İyi Test Doğruluğu (Accuracy) : {best_acc:.4f}\n")
+        f.write(f"En İyi Test Macro F1 Skoru       : {best_f1:.4f}\n")
+        f.write(f"Toplam Tamamlanan Epoch Sayısı   : {epoch}\n")
+        f.write("-" * 45 + "\n")
+        f.write("Not: Her bir epoch için detaylı test sonuçları 'training_logs_per_epoch.csv' dosyasındadır.\n")
+
+    from sklearn.metrics import classification_report
+    report_text = classification_report(best_labels, best_preds, target_names=classes)
+    print("\n" + report_text)
+    
+    with open(os.path.join(RESULTS_DIR, "academic_report_summary.txt"), "a", encoding="utf-8") as f:
+        f.write("\n=== SINIF BAZINDA SONUÇLAR (CLASSIFICATION REPORT) ===\n")
+        f.write(report_text)

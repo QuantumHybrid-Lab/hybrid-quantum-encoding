@@ -34,8 +34,8 @@ dev = qml.device("default.qubit", wires=N_QUBITS)
 @qml.qnode(dev, interface="torch")
 def circuit_single_out(inputs, weights):
     """Original design: single PauliZ measurement."""
-    qml.AmplitudeEmbedding(inputs[:8], wires=[0, 1, 2], normalize=True)
-    qml.AngleEmbedding(inputs[8:],    wires=[3, 4, 5], rotation="Y")
+    qml.AmplitudeEmbedding(inputs[:, :8], wires=[0, 1, 2], normalize=True)
+    qml.AngleEmbedding(inputs[:, 8:],    wires=[3, 4, 5], rotation="Y")
     qml.BasicEntanglerLayers(weights, wires=range(N_QUBITS))
     return qml.expval(qml.PauliZ(0))
 
@@ -43,8 +43,8 @@ def circuit_single_out(inputs, weights):
 @qml.qnode(dev, interface="torch")
 def circuit_multi_basic(inputs, weights):
     """Fix 1: multiple outputs, BasicEntanglerLayers."""
-    qml.AmplitudeEmbedding(inputs[:8], wires=[0, 1, 2], normalize=True)
-    qml.AngleEmbedding(inputs[8:],    wires=[3, 4, 5], rotation="Y")
+    qml.AmplitudeEmbedding(inputs[:, :8], wires=[0, 1, 2], normalize=True)
+    qml.AngleEmbedding(inputs[:, 8:],    wires=[3, 4, 5], rotation="Y")
     qml.BasicEntanglerLayers(weights, wires=range(N_QUBITS))
     return [qml.expval(qml.PauliZ(i)) for i in range(N_QUBITS)]
 
@@ -52,8 +52,8 @@ def circuit_multi_basic(inputs, weights):
 @qml.qnode(dev, interface="torch")
 def circuit_multi_strongly(inputs, weights):
     """Fix 1+2: multiple outputs + StronglyEntanglingLayers."""
-    qml.AmplitudeEmbedding(inputs[:8], wires=[0, 1, 2], normalize=True)
-    qml.AngleEmbedding(inputs[8:],    wires=[3, 4, 5], rotation="Y")
+    qml.AmplitudeEmbedding(inputs[:, :8], wires=[0, 1, 2], normalize=True)
+    qml.AngleEmbedding(inputs[:, 8:],    wires=[3, 4, 5], rotation="Y")
     qml.StronglyEntanglingLayers(weights, wires=range(N_QUBITS))
     return [qml.expval(qml.PauliZ(i)) for i in range(N_QUBITS)]
 
