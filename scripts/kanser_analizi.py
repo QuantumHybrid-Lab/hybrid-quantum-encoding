@@ -7,7 +7,7 @@ from sklearn.ensemble import RandomForestClassifier
 # 1. VERİYİ YÜKLE
 # Dosya artık doğrudan bu kodun yanında olduğu için sadece ismini yazıyoruz
 try:
-    df_kanser = pd.read_csv('wdbc.data', header=None)
+    df_kanser = pd.read_csv('data/cancer/wdbc.data', header=None)
     print("Kanser veri seti başarıyla yüklendi.")
 except Exception as e:
     print(f"Hata oluştu: {e}")

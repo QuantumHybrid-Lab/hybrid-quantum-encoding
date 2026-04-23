@@ -1,54 +1,87 @@
-# Obezite Düzeyi Tahmininde Klasik ve Kuantum Tabanlı Yaklaşımlar: Hibrit Kodlama Analizi
+# Hybrid Quantum Encoding Project
 
-YGA 2026 · Grup 14 tarafından yürütülen bu araştırma projesinde, klasik sağlık verilerinin (UCI Obesity Dataset) kuantum devrelere aktarımında yaşanan verimlilik kayıplarını en aza indirmek için **adaptif hibrit kodlama** stratejileri araştırılmaktadır. 
+Bu proje, UCI Obesity veri seti üzerinde hibrit kuantum kodlama yaklaşımını test eder.
 
-Kategorik ve sürekli (mixed-type) özelliklerin bir arada bulunduğu veri setlerinde tek tip kuantum kodlamasının (encoding) sebep olduğu doğruluk ve donanım kısıtlamalarını aşmak amacıyla VQC (Variational Quantum Circuit) tabanlı yeni bir mimari geliştirilmiş ve literatüre bir katkı olarak sunulmuştur.
+- Kategorik değişkenler için: Angle Encoding
+- Sürekli değişkenler için: Amplitude Encoding
+- Model: PennyLane + PyTorch tabanlı hibrit kuantum-klasik sınıflandırıcı
 
-## Özgün Katkı
-Bu proje, karma yapıya sahip veriler için kuantum yapay zeka alanında şu yeniliği sunar:
-- **Kategorik Değişkenler:** Angle Encoding
-- **Sürekli Değişkenler:** Amplitude Encoding
+Ana hedef, klasik taban çizgileriyle karşılaştırmalı olarak hibrit encoding yaklaşımının performansını incelemektir.
+Kalp hastalığı ve kanser veri setleri de hibrit encoding deneyleri için kullanılacaktır.
 
-Bu iki yöntemin eşzamanlı olarak aynı VQC (Değişken Kuantum Devresi) içerisinde kullanılabilmesine olanak tanıyan **Adaptif Hibrit Kodlama** stratejisi geliştirilmiştir. Geleneksel tek tip kuantum kodlama veya klasik SVM yaklaşımlarına (baseline) karşılaştırmalı olarak devrenin qubit sayısı, devre derinliği (circuit depth) ve sınıflandırma doğruluğu (accuracy) test edilmiştir.
-
-## Proje Yapısı
-
-```text
-├── data/           # UCI Obesity veri seti (Raw & İşlenmiş veriler)
-├── notebooks/      # Analiz, görselleştirme ve keşifsel veri analizi Notebook'ları
-├── results/        # Deney çıktıları, figürler ve performans metrikleri
-├── src/            # Kaynak kod:
-│   ├── ablation.py     # Ablasyon (Ablation) testleri ve model incelemesi
-│   ├── circuit.py      # Kuantum devre tanımlamaları (Angle, Amp, Basis, Hibrit)
-│   ├── preprocessing.py# Veri temizleme ve hazırlık pipeline'ı
-│   └── train.py        # PennyLane + PyTorch ile VQC eğitim scripti
-├── presentation.md # Proje sunum dosyası (Marp formatında)
-└── README.md       # Proje ana dökümantasyonu
-```
-
-## Hedef ve Çıktılar
-Bu araştırma TR Dizin standartlarına uygun, hakemli dergilerde yayımlanmak üzere hazırlanmış akademik bir çalışmadır.
-> **Benchmark Karşılaştırmaları:**
-> - Hibrit VQC (PennyLane + PyTorch)
-> - Baseline VQC (Basis Encoding)
-> - Klasik SVM (scikit-learn rbf-kernel)
-
-## Takım & İş Bölümü (YGA 2026 Grup 14)
-- **Atakan Yılmaz:** Simülasyon / Kod (PennyLane VQC, Eğitim optimizasyonu)
-- **Emine Gülmez:** Veri Sorumlusu (Veri temizleme, Feature Importance)
-- **Enes Furkan Kaya:** Veri Sorumlusu (Veri pipeline, Kaynak matrisi, Literatür karşılaştırma)
-- **Tevfik Metin:** Algoritma Analiz Sorumlusu (Makale yazımı, Koordinasyon, Submission)
-
-## Kurulum
-Projenin bağımlılıklarını kurmak için aşağıdaki komutu çalıştırabilirsiniz:
+## Hızlı Başlangıç
 
 ```bash
-pip install pennylane numpy pandas scikit-learn matplotlib torch
+pip install pennylane numpy pandas scikit-learn matplotlib seaborn torch xgboost python-docx
 ```
 
-## Kullanım
+Ana eğitimi çalıştırma:
 
-Eğitim sürecini başlatmak için `src/train.py` dosyasını çalıştırabilirsiniz:
 ```bash
 python src/train.py
 ```
+
+Ablation çalışması:
+
+```bash
+python src/ablation.py
+```
+
+## Proje Yapısı
+
+```
+hybrid-quantum-encoding/
+├── data/
+│   ├── obesity/        # UCI Obesity veri seti (ham + temiz)
+│   ├── cancer/         # WDBC Breast Cancer veri seti
+│   └── heart/          # Cleveland Heart Disease veri seti
+├── src/
+│   ├── preprocessing.py
+│   ├── circuit.py
+│   ├── train.py
+│   └── ablation.py
+├── scripts/            # Klasik baseline analizleri
+│   ├── veri_analizi.py
+│   ├── kalp_analizi.py
+│   ├── kanser_analizi.py
+│   └── create_ieee_tables.py
+├── results/            # Eğitim çıktıları, grafikler
+├── presentation/       # Sunum dosyaları (Marp + PDF)
+└── notebooks/
+```
+
+## Kaynak Dosyalar
+
+### src/
+
+- `src/preprocessing.py` — Obezite verisini hibrit encoding için hazırlar (angle + amplitude ayrımı, L2 norm, train/test split)
+- `src/circuit.py` — Angle, Amplitude ve Hybrid kuantum devrelerini tanımlar; kaynak ve derinlik ölçümü
+- `src/train.py` — Ana hibrit model eğitimi (PennyLane devresi + klasik çıkış katmanı, loss/confusion matrix görselleştirme)
+- `src/ablation.py` — Tek çıkışlı vs. çok çıkışlı devre mimarilerini karşılaştırır
+
+### scripts/
+
+- `scripts/veri_analizi.py` — Obezite verisi klasik SVM baseline (top-3 özellik, L2 norm)
+- `scripts/kalp_analizi.py` — Cleveland heart disease klasik baseline (XGBoost özellik seçimi + SVM)
+- `scripts/kanser_analizi.py` — WDBC cancer klasik baseline (RandomForest özellik seçimi + SVM)
+- `scripts/create_ieee_tables.py` — IEEE formatında tablo çıktısı üretir (`results/` altına `.docx`)
+
+### data/
+
+- `data/obesity/ObesityDataSet_raw_and_data_sinthetic.csv` — Ham obezite verisi
+- `data/obesity/temiz_obezite_verisi.csv` — Ön işlenmiş obezite verisi
+- `data/cancer/wdbc.data` — WDBC breast cancer verisi
+- `data/heart/processed.cleveland.data` — Cleveland heart disease verisi
+
+### results/
+
+- `results/improved_training_curves.png` — Eğitim metrik eğrileri
+- `results/improved_confusion_matrix.png` — Karışıklık matrisi
+
+## Çalışma Akışı
+
+1. `src/preprocessing.py` ile veri hazırlama mantığını doğrula
+2. `src/train.py` ile ana hibrit modeli eğit
+3. `src/ablation.py` ile tasarım tercihlerini kıyasla
+4. `scripts/create_ieee_tables.py` ile rapor tablolarını üret
+5. Sonuçları `results/` ve `presentation/` altına aktar

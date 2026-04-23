@@ -5,7 +5,7 @@ from sklearn.svm import SVC
 from xgboost import XGBClassifier
 
 # 1. VERİYİ YÜKLE VE TEMİZLE
-df_kalp = pd.read_csv('processed.cleveland.data', header=None, na_values='?')
+df_kalp = pd.read_csv('data/heart/processed.cleveland.data', header=None, na_values='?')
 df_kalp = df_kalp.dropna()
 X = df_kalp.iloc[:, :-1]
 y = (df_kalp.iloc[:, -1] > 0).astype(int)
