@@ -1,0 +1,7 @@
+Model,Accuracy,Macro F1,Weighted F1
+XGBoost (10 özellik),0.9689,0.9681,0.9688
+Random Forest (10 özellik),0.9402,0.9381,0.9411
+Logistic Regression (10 özellik),0.8852,0.8795,0.8843
+"Hybrid Quantum Q1 (10 özellik, Angle, 2L)",0.7894736842105263,0.7769389523867228,0.7821918163392149
+"Hybrid Quantum Q3 (10 özellik, Angle+Amplitude)",0.7870813397129187,0.7756318883642893,0.7817391613360175
+"Hybrid Quantum Q2 (10 özellik, Angle, 4L)",0.7511961722488039,0.7388623046454222,0.7472968610015774

@@ -1,0 +1,78 @@
+
+EXPERIMENT SUMMARY
+==================
+
+Experiment Name:
+quantum_clean_top10_angle
+
+Dataset:
+- Full dataset: obesity_top10_dataset.csv
+- Train file: train_10_features.csv
+- Test file : test_10_features.csv
+- Features used: all selected top-10 features
+- Number of classes: 7
+
+Split Strategy:
+- Ready train/test split from processed_data was used
+- Original split: 1669 train / 418 test (~80/20)
+- Clean experiment:
+    * Train: 1335
+    * Validation: 334
+    * Test: 418
+- Validation split was obtained from the train file using stratified split
+- Note: 1 overlapping row was detected between provided train/test files; same split was preserved for fairness with classical baselines
+
+Preprocessing:
+- Gender encoded as Male=1, Female=0
+- CALC encoded as no=0, Sometimes=1, Frequently=2, Always=3
+- family_history_with_overweight encoded as yes=1, no=0
+- StandardScaler applied
+- Quantum angle mapping: clip[-3,3] * (pi/3)
+
+Quantum Models:
+Q1:
+- 10 qubits
+- Angle encoding
+- 2 variational layers
+- Ring CNOT entanglement
+- All-qubit readout
+- Small classical head
+- Final Test Accuracy: 0.7895
+- Final Test Macro F1: 0.7769
+- Final Test Weighted F1: 0.7822
+- Final Test ROC-AUC: 0.9698
+- Best Validation F1: 0.8448 at epoch 48
+
+Q2:
+- 10 qubits
+- Angle encoding
+- 4 variational layers
+- Ring CNOT entanglement
+- All-qubit readout
+- Small classical head
+- Final Test Accuracy: 0.7512
+- Final Test Macro F1: 0.7389
+- Final Test Weighted F1: 0.7473
+- Final Test ROC-AUC: 0.9602
+- Best Validation F1: 0.8037 at epoch 45
+
+Main Finding:
+- Q1 outperformed Q2 on all final test metrics
+- Increasing quantum circuit depth from 2 to 4 layers did not improve performance
+- Shallow hybrid quantum architecture was more effective and more stable in this setting
+
+Fair Comparison with Top-10 Classical Models:
+- Logistic Regression (10 features): Accuracy=0.8852, Macro F1=0.8795, Weighted F1=0.8843
+- Random Forest (10 features): Accuracy=0.9402, Macro F1=0.9381, Weighted F1=0.9411
+- XGBoost (10 features): Accuracy=0.9689, Macro F1=0.9681, Weighted F1=0.9688
+- Hybrid Quantum Q1 (10 features): Accuracy=0.7895, Macro F1=0.7769, Weighted F1=0.7822
+- Hybrid Quantum Q2 (10 features): Accuracy=0.7512, Macro F1=0.7389, Weighted F1=0.7473
+
+Interpretation:
+- Classical models still outperform the tested quantum models on this dataset
+- However, the clean quantum experiment provides a controlled and fair evaluation
+- The main quantum contribution is methodological:
+  * exact top-10 feature usage
+  * 10 qubits = 10 features mapping
+  * pure angle encoding
+  * controlled depth comparison (2 vs 4 layers)

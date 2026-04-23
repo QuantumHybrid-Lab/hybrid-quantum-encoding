@@ -1,0 +1,130 @@
+{
+    "experiment_name": "quantum_clean_top10_angle",
+    "dataset": {
+        "full_dataset_file": "obesity_top10_dataset.csv",
+        "train_file": "train_10_features.csv",
+        "test_file": "test_10_features.csv",
+        "n_total_samples": 2087,
+        "n_features": 10,
+        "feature_names": [
+            "Weight",
+            "Age",
+            "FCVC",
+            "Height",
+            "Gender",
+            "NCP",
+            "CALC",
+            "FAF",
+            "TUE",
+            "family_history_with_overweight"
+        ],
+        "n_classes": 7,
+        "class_names": [
+            "Insufficient_Weight",
+            "Normal_Weight",
+            "Obesity_Type_I",
+            "Obesity_Type_II",
+            "Obesity_Type_III",
+            "Overweight_Level_I",
+            "Overweight_Level_II"
+        ],
+        "class_mapping": {
+            "0": "Insufficient_Weight",
+            "1": "Normal_Weight",
+            "2": "Obesity_Type_I",
+            "3": "Obesity_Type_II",
+            "4": "Obesity_Type_III",
+            "5": "Overweight_Level_I",
+            "6": "Overweight_Level_II"
+        }
+    },
+    "splits": {
+        "original_ready_split": {
+            "train": 1669,
+            "test": 418,
+            "train_ratio": 0.7997125059894585,
+            "test_ratio": 0.20028749401054144
+        },
+        "clean_experiment_split": {
+            "train": 1335,
+            "validation": 334,
+            "test": 418,
+            "train_ratio": 0.6396741734547197,
+            "validation_ratio": 0.16003833253473887,
+            "test_ratio": 0.20028749401054144
+        },
+        "note": "Train/test split hazır dosyalardan alındı; final deney için train verisi içinden stratified validation ayrıldı."
+    },
+    "preprocessing": {
+        "categorical_encoding": {
+            "Gender": {
+                "Male": 1,
+                "Female": 0
+            },
+            "CALC": {
+                "no": 0,
+                "Sometimes": 1,
+                "Frequently": 2,
+                "Always": 3
+            },
+            "family_history_with_overweight": {
+                "yes": 1,
+                "no": 0
+            }
+        },
+        "target_encoding": {
+            "0": "Insufficient_Weight",
+            "1": "Normal_Weight",
+            "2": "Obesity_Type_I",
+            "3": "Obesity_Type_II",
+            "4": "Obesity_Type_III",
+            "5": "Overweight_Level_I",
+            "6": "Overweight_Level_II"
+        },
+        "scaling": "StandardScaler",
+        "angle_mapping": "clip[-3, 3] * (pi / 3)"
+    },
+    "models": {
+        "Q1": {
+            "description": "Hybrid Quantum Q1",
+            "qubits": 10,
+            "layers": 2,
+            "encoding": "AngleEmbedding (RY)",
+            "entanglement": "Ring CNOT",
+            "all_qubit_readout": true,
+            "classical_head": "Linear(10,16) + ReLU + Dropout(0.2) + Linear(16,7)",
+            "params": 335,
+            "best_val_f1": 0.8448366973095023,
+            "best_epoch": 48,
+            "test_accuracy": 0.7894736842105263,
+            "test_macro_f1": 0.7769389523867228,
+            "test_weighted_f1": 0.7821918163392149,
+            "test_precision": 0.7904489865223838,
+            "test_recall": 0.7894736842105263,
+            "test_roc_auc": 0.9698449081475656
+        },
+        "Q2": {
+            "description": "Hybrid Quantum Q2",
+            "qubits": 10,
+            "layers": 4,
+            "encoding": "AngleEmbedding (RY)",
+            "entanglement": "Ring CNOT",
+            "all_qubit_readout": true,
+            "classical_head": "Linear(10,16) + ReLU + Dropout(0.2) + Linear(16,7)",
+            "params": 375,
+            "best_val_f1": 0.8036849513926221,
+            "best_epoch": 45,
+            "test_accuracy": 0.7511961722488039,
+            "test_macro_f1": 0.7388623046454222,
+            "test_weighted_f1": 0.7472968610015774,
+            "test_precision": 0.7509304372651113,
+            "test_recall": 0.7511961722488039,
+            "test_roc_auc": 0.9601758415618502
+        }
+    },
+    "data_integrity_checks": {
+        "train_plus_test_equals_full": true,
+        "train_test_overlap_rows_detected": 1,
+        "comment": "Hazır split dosyalarında 1 ortak satır tespit edildi; klasik modellerle adil karşılaştırma için aynı split korunmuştur."
+    }
+}

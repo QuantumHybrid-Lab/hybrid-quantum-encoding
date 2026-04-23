@@ -1,0 +1,2 @@
+Model,Qubits,Layers,Encoding,Accuracy,Macro F1,Weighted F1,Precision,Recall,ROC-AUC,Best Val F1,Best Epoch,Parameters
+Hybrid Quantum Q3 (Angle+Amplitude),10 (angle) + 4 (amplitude),2+2,Angle + Amplitude,0.7870813397129187,0.7756318883642893,0.7817391613360175,0.7804863517874436,0.7870813397129187,0.9704572323267642,0.8187302383037561,31,415

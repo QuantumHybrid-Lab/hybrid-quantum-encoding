@@ -1,0 +1,52 @@
+
+Q3 EXPERIMENT SUMMARY
+=====================
+
+Experiment: quantum_clean_top10_hybrid_encoding
+
+Model: Hybrid Encoding Q3
+- Angle Branch  : 10 qubits, 2 layers, AngleEmbedding RY, Ring CNOT
+- Amplitude Branch: 4 qubits, 2 layers, AmplitudeEmbedding, Ring CNOT
+- Fusion        : concat(angle_out[10], amp_out[4]) = 14 dim
+- Classical Head: Linear(14,16) -> ReLU -> Dropout(0.2) -> Linear(16,7)
+- Total Params  : 415
+
+Split (same as Q1/Q2):
+- Train     : 1335
+- Validation: 334
+- Test      : 418
+
+Training:
+- Optimizer : Adam (lr=0.01)
+- Batch size: 32
+- Max epochs: 50
+- Early stop: patience=12
+- Trained   : 43 epochs
+- Best epoch: 31
+
+Results:
+- Best Val F1   : 0.8187
+- Test Accuracy : 0.7871
+- Test Macro F1 : 0.7756
+- Test Wtd F1   : 0.7817
+- Test Precision: 0.7805
+- Test Recall   : 0.7871
+- Test ROC-AUC  : 0.9705
+
+Comparison with Q1 and Q2:
+- Q1 (Pure Angle, 2L) : Acc=0.7895 | Wtd F1=0.7822 | ROC-AUC=0.9698
+- Q2 (Pure Angle, 4L) : Acc=0.7512 | Wtd F1=0.7473 | ROC-AUC=0.9602
+- Q3 (Hybrid Enc)     : Acc=0.7871 | Wtd F1=0.7817 | ROC-AUC=0.9705
+
+Key Findings:
+1. Q1 en yuksek Accuracy ve F1 weighted elde etti.
+2. Q3 en yuksek ROC-AUC degerini elde etti (0.9705).
+3. Q1 vs Q3 farki son derece kucuk:
+   - Accuracy farki  : 0.0024
+   - Wtd F1 farki    : 0.0005
+   - ROC-AUC farki   : 0.0006
+4. Q2 (derin devre) her metrikte geride kaldi.
+5. Amplitude encoding eklenmesi ROC-AUC'yi artirdi
+   ama overall F1 ve accuracy'de Q1 one gecemedi.
+6. Hibrit encoding erken durdu (epoch 43),
+   pure angle Q1 tum 50 epoch boyunca ilerledi.

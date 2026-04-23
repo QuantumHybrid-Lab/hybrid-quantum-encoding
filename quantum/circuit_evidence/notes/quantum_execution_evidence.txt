@@ -1,0 +1,50 @@
+QUANTUM EXECUTION EVIDENCE
+==========================
+
+This project implemented quantum machine learning models using PennyLane's default.qubit simulator.
+
+Important clarification:
+- The models were NOT executed on real quantum hardware.
+- The models WERE executed as valid quantum circuits on a statevector-based quantum simulator.
+- Therefore, the work constitutes a simulator-based quantum machine learning study.
+
+Implemented quantum models:
+1. Q1:
+   - 10 qubits
+   - Pure angle encoding
+   - 2 variational layers
+   - Ring CNOT entanglement
+   - All-qubit readout
+   - Classical classification head
+
+2. Q2:
+   - 10 qubits
+   - Pure angle encoding
+   - 4 variational layers
+   - Ring CNOT entanglement
+   - All-qubit readout
+   - Classical classification head
+
+3. Q3:
+   - Dual-branch hybrid-encoding architecture
+   - Angle branch: 10 qubits, angle encoding, 2 layers
+   - Amplitude branch: 4 qubits, amplitude encoding, 2 layers
+   - Fusion of both branches
+   - Classical classification head
+
+Why this counts as quantum:
+- Quantum states were prepared using AngleEmbedding and AmplitudeEmbedding
+- Quantum gates (RY, RZ, CNOT) were applied
+- Quantum measurements (PauliZ expectation values) were collected
+- Classical optimization updated trainable quantum parameters during training
+
+Saved evidence:
+- Python circuit definitions (.py)
+- ASCII circuit renderings (.txt)
+- Circuit diagrams (.png)
+- Experiment metadata and summaries
+- Trained model weights (.pt)
+- Training histories and evaluation tables (.csv)
+
+Conclusion:
+The project constitutes a valid hybrid quantum-classical machine learning workflow executed on a quantum simulator.

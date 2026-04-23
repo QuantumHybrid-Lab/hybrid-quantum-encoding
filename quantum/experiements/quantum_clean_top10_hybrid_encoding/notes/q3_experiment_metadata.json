@@ -1,0 +1,66 @@
+{
+    "experiment_name": "quantum_clean_top10_hybrid_encoding",
+    "description": "Hybrid angle+amplitude encoding quantum model (Q3)",
+    "dataset": {
+        "train_file": "train_10_features.csv",
+        "test_file": "test_10_features.csv",
+        "n_features": 10,
+        "n_classes": 7,
+        "class_names": [
+            "Insufficient_Weight",
+            "Normal_Weight",
+            "Obesity_Type_I",
+            "Obesity_Type_II",
+            "Obesity_Type_III",
+            "Overweight_Level_I",
+            "Overweight_Level_II"
+        ]
+    },
+    "splits": {
+        "train": 1335,
+        "validation": 334,
+        "test": 418,
+        "note": "Q1/Q2 ile birebir ayni split. random_state=42, stratified."
+    },
+    "architecture": {
+        "angle_branch": {
+            "qubits": 10,
+            "layers": 2,
+            "encoding": "AngleEmbedding RY",
+            "entanglement": "Ring CNOT",
+            "readout": "PauliZ all qubits",
+            "output_dim": 10
+        },
+        "amplitude_branch": {
+            "qubits": 4,
+            "layers": 2,
+            "encoding": "AmplitudeEmbedding (pad to 16, L2 normalize)",
+            "entanglement": "Ring CNOT",
+            "readout": "PauliZ all qubits",
+            "output_dim": 4
+        },
+        "fusion": "concatenate angle(10) + amplitude(4) = 14 dim",
+        "classical_head": "Linear(14,16) + ReLU + Dropout(0.2) + Linear(16,7)",
+        "total_parameters": 415
+    },
+    "training": {
+        "optimizer": "Adam",
+        "lr": 0.01,
+        "batch_size": 32,
+        "max_epochs": 50,
+        "early_stopping_patience": 12,
+        "loss": "CrossEntropyLoss",
+        "seed": 42,
+        "actual_epochs_trained": 43,
+        "best_epoch": 31
+    },
+    "results": {
+        "best_val_f1": 0.8187302383037561,
+        "test_accuracy": 0.7870813397129187,
+        "test_macro_f1": 0.7756318883642893,
+        "test_weighted_f1": 0.7817391613360175,
+        "test_precision": 0.7804863517874436,
+        "test_recall": 0.7870813397129187,
+        "test_roc_auc": 0.9704572323267642
+    }
+}
